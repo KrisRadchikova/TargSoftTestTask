@@ -58,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService, UserDetailsService 
     }
 
     @Override
-    @CacheEvict
+    @CacheEvict(cacheNames = "employee", key = "#id")
     public Employee updateEmployee(BigInteger id, Employee employeeRequest) {
         employeeRepository.findById(id).map(employee -> {
             employee.setId(employeeRequest.getId());

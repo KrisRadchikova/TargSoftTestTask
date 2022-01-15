@@ -6,6 +6,7 @@ import by.targsoft.test.targsofttest.entity.EmployeeCategory;
 import by.targsoft.test.targsofttest.service.interfaces.EmployeeCategoryService;
 import by.targsoft.test.targsofttest.service.interfaces.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -15,9 +16,12 @@ public class EmployeeMapper implements Mapper<Employee, EmployeeDto> {
 
     private final EmployeeCategoryService employeeCategoryService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public EmployeeMapper(EmployeeCategoryService employeeCategoryService) {
+    public EmployeeMapper(EmployeeCategoryService employeeCategoryService, PasswordEncoder passwordEncoder) {
         this.employeeCategoryService = employeeCategoryService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -41,7 +45,7 @@ public class EmployeeMapper implements Mapper<Employee, EmployeeDto> {
         entity.setName(dto.getName());
         entity.setEmployeeCategory(employeeCategory);
         entity.setLogin(dto.getLogin());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         return entity;
     }
 
@@ -55,7 +59,7 @@ public class EmployeeMapper implements Mapper<Employee, EmployeeDto> {
         entity.setName(dto.getName());
         entity.setEmployeeCategory(employeeCategory);
         entity.setLogin(dto.getLogin());
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         return entity;
     }
 }
